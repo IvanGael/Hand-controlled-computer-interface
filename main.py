@@ -12,8 +12,8 @@ screen_width, screen_height = pyautogui.size()
 hand_cascade = cv2.CascadeClassifier('haarcascade_hand.xml')   
 
 # Parameters for click and scroll actions
-scroll_threshold = 50  # Adjust as needed
-click_threshold = 30  # Adjust as needed
+scroll_threshold = 50  
+click_threshold = 30  
 prev_x, prev_y = 0, 0
 scrolling = False
 
