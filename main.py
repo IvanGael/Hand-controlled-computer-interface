@@ -9,11 +9,11 @@ cap = cv2.VideoCapture(0)
 screen_width, screen_height = pyautogui.size()
 
 # Set up the hand and finger detector
-hand_cascade = cv2.CascadeClassifier('haarcascade_hand.xml')   
+hand_cascade = cv2.CascadeClassifier('haarcascade_hand.xml')
 
-# Parameters for click and scroll actions
-scroll_threshold = 50  
-click_threshold = 30  
+# Parameters for click, scroll, and mouse movement actions
+scroll_threshold = 50
+click_threshold = 30
 prev_x, prev_y = 0, 0
 scrolling = False
 
@@ -67,9 +67,23 @@ while True:
 
                 # Perform actions based on finger count
                 if finger_count == 1:
-                    pyautogui.click()  # Click action with one finger
-                elif finger_count == 5:
-                    pyautogui.scroll(10)  # Scroll action with all fingers
+                    pyautogui.scroll(10)  # Scroll up action with one finger
+                elif finger_count == 2:
+                    pyautogui.scroll(-10)  # Scroll down action with two fingers
+                elif finger_count == 3:
+                    # Get the center of the hand
+                    center_x = hx + hw // 2
+                    center_y = hy + hh // 2
+
+                    # Move the mouse cursor based on hand movement
+                    if prev_x and prev_y:
+                        dx = center_x - prev_x
+                        dy = center_y - prev_y
+                        pyautogui.moveRel(dx, dy)
+
+                    prev_x, prev_y = center_x, center_y
+                elif finger_count == 0:
+                    pyautogui.click()  # Click action with fist
 
     # Display the frame
     cv2.imshow('Hand Gesture Tracking', frame)
